@@ -1,128 +1,27 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Padbol | Calendar</title>
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>Padbol Booking</title>
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
       background: #101010;
       color: #fff;
-    }
-    header {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      padding: 15px 30px;
-      background: #1a512e;
-      color: #fff;
+      height: 100vh;
+      margin: 0;
     }
-    .calendar-container {
-      max-width: 900px;
-      margin: 30px auto;
-      background: #1a1a1a;
-      padding: 20px;
-      border-radius: 10px;
-    }
-    #calendar {
-      background: #fff;
-      border-radius: 10px;
-      padding: 10px;
-    }
-    .fc-event.booked {
-      background-color: #cc0000 !important;
-      border: none;
-    }
-    .fc-event.available {
-      background-color: #00cc66 !important;
-      border: none;
+    h1 {
+      color: #00cc66;
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
 </head>
 <body>
-  <header>
-    <h2 id="welcome-text">Welcome to Padbol</h2>
-    <button onclick="logout()" style="background:#cc0000; color:#fff; border:none; padding:8px 12px; border-radius:5px; cursor:pointer;">Logout</button>
-  </header>
-
-  <div class="calendar-container">
-    <div id='calendar'></div>
-  </div>
-
-  <script>
-    let calendar;
-
-    function logout() {
-      localStorage.removeItem("currentUser");
-      window.location.href = "index.html";
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-      const calendarEl = document.getElementById('calendar');
-      calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'timeGridWeek',
-        slotMinTime: "00:00:00",
-        slotMaxTime: "24:00:00",
-        allDaySlot: false,
-        slotDuration: '00:30:00',
-        selectable: true,
-        selectMirror: true,
-        nowIndicator: true,
-        headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'timeGridWeek,timeGridDay'
-        },
-        events: JSON.parse(localStorage.getItem('bookings') || '[]'),
-        select: function (info) {
-          const duration = (new Date(info.end) - new Date(info.start)) / (1000 * 60); // duration in minutes
-          if (duration < 30) {
-            alert("Minimum booking time is 30 minutes.");
-            return;
-          }
-
-          const existing = calendar.getEvents().some(event =>
-            event.startStr === info.startStr
-          );
-          if (existing) {
-            alert("This slot is already booked.");
-            return;
-          }
-
-          const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-          const booking = {
-            title: 'Booked',
-            start: info.startStr,
-            end: info.endStr,
-            className: 'booked',
-            extendedProps: {
-              user: currentUser
-            }
-          };
-
-          const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-          bookings.push(booking);
-          localStorage.setItem('bookings', JSON.stringify(bookings));
-          calendar.addEvent(booking);
-        },
-        eventDidMount: function(info) {
-          const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-          const bookedUser = info.event.extendedProps.user;
-          if (bookedUser?.email !== "bassemnabil514@gmail.com") {
-            info.el.innerText = 'Booked';
-          } else {
-            info.el.innerText = `Booked by ${bookedUser.name}`;
-          }
-        }
-      });
-
-      calendar.render();
-    });
-  </script>
+  <h1>Welcome to Padbol Booking Website</h1>
+  <p>This is a test page. If you're seeing this, everything works fine.</p>
 </body>
 </html>
